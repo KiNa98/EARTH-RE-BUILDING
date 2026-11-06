@@ -1,29 +1,8 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Cards</title>
-<link rel="stylesheet" href="css/common.css">
-<style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:transparent;color:#edf3f6;font-family:"Noto Sans CJK KR","Noto Sans KR","Malgun Gothic",sans-serif}
-body{display:grid;place-items:center;padding:5vh 6vw}
-.panel{width:min(82vw,1380px);height:min(82vh,830px);padding:40px;background:linear-gradient(180deg,rgba(15,42,56,.72),rgba(9,27,38,.66));border:1px solid rgba(175,225,250,.36);box-shadow:0 24px 80px rgba(0,0,0,.42);backdrop-filter:blur(12px);overflow:auto}
-.code{font-size:10px;letter-spacing:.20em;color:#afc0c8;margin:0 0 10px}
-h1{font-size:clamp(22px,2.7vw,38px);margin:0 0 8px}.sub{font-size:13px;color:#c3cdd2;margin-bottom:26px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}.tab{padding:8px 12px;border:1px solid rgba(220,235,240,.18);font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.item{min-height:150px;padding:18px;border:1px solid rgba(220,235,240,.14);background:rgba(255,255,255,.035)}.item strong{display:block;margin-bottom:10px}.item span{font-size:12px;line-height:1.7;color:#b8c5ca}
-@media(max-width:900px){.panel{width:94vw;height:auto;min-height:90vh}.grid{grid-template-columns:1fr 1fr}}
-</style>
-</head>
-<body id="body">
-<main class="panel" id="panel">
-<p class="code">EQUIPMENT STORAGE / INVENTORY DATABASE</p><h1>CARD DATABASE</h1><p class="sub">장비 창고: 카드 열람</p>
-<div class="tabs"><div class="tab">전체</div><div class="tab">기록 카드</div><div class="tab">현장 장비</div><div class="tab">지원 카드</div><div class="tab">복합 카드</div></div>
-<section class="grid"><article class="item"><strong>기록 카드</strong><span>사진·문서·생물 기록 등.</span></article><article class="item"><strong>현장 장비</strong><span>공구·보호 장비·소모품.</span></article><article class="item"><strong>지원 카드</strong><span>기술 지원 및 제한 자산.</span></article><article class="item"><strong>복합 카드</strong><span>도면·매뉴얼·특수 부품.</span></article></section>
-</main>
-<script>
-const b=document.getElementById("body"),p=document.getElementById("panel");
-b.addEventListener("click",e=>{if(!p.contains(e.target)) parent.postMessage("ARGO_CLOSE_PANEL","*");});
-p.addEventListener("click",e=>e.stopPropagation());
-</script>
-</body></html>
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1a20"><title>STORAGE — EARTH RE:BUILDING</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="css/site.css"><script src="js/inner.js" defer></script></head><body class="inner-page"><div class="inner-shell">
+<header class="inner-top"><a class="inner-brand" href="./"><img src="assets/favicon.svg" alt="" width="28" height="28"><span>EARTH <em>RE:BUILDING</em> / STORAGE</span></a><nav class="inner-nav" aria-label="이동"><a href="archive.html">아카이브 열기</a><a href="./" class="back-home">↶ 역사로 돌아가기</a></nav></header>
+<main><div class="inner-hero"><div class="inner-kicker">TERMINAL 01 / EQUIPMENT STORAGE</div><h1>장비 창고 <span style="color:var(--mint)">STORAGE</span></h1><p>이 세계를 공유하는 두 작품의 장비·규칙·시스템을 구분해 보관하는 구역. 세계관 공용 설정과 작품별 게임 규칙은 동일한 것으로 취급하지 않는다.</p></div>
+<div class="inner-content"><h2 class="section-title">프로젝트별 기록</h2><p class="section-copy">각 작품의 게임 시스템과 상세 도구 자료는 별도 검수 후 확장됩니다.</p><div class="info-grid">
+<article class="info-card"><span class="tag">PROJECT 01 / TRAVEL &amp; MEDIA</span><h2>ARGO NOTE</h2><p>장거리 여행과 현장 취재의 시점으로 재건된 지구와 우주 사회를 관찰하는 프로젝트. 장비와 취재 시스템은 작품 전용 규칙으로 관리한다.</p><span class="stage">SYSTEM RECORDS / NOT YET PUBLISHED</span></article>
+<article class="info-card"><span class="tag">PROJECT 02 / URBAN RECONSTRUCTION</span><h2>EAST CITY</h2><p>한양 동부의 도시 생활과 재건 작업을 중심으로 한 프로젝트. 현장 탐사와 거점 작업은 ARGO NOTE의 시스템과 별도로 설계된다.</p><span class="stage">SYSTEM RECORDS / NOT YET PUBLISHED</span></article></div>
+<div class="empty-signal"><strong>현 시점에서 플레이 가능한 카드 게임을 제공하지 않습니다.</strong>카드 도감과 장비 카드의 실제 텍스트·이미지가 확보되면 작품별 독립 기록으로 추가할 수 있습니다.</div></div></main><footer class="inner-footer"><span>STORAGE / PROJECT-SPECIFIC RECORDS</span><span>STATIC RECORD SYSTEM</span></footer></div></body></html>
