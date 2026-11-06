@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "category": "기록 카드",
+      "code": "RECORD",
+      "title": "기록 카드 샘플",
+      "image": "",
+      "short": "사진, 문서, 생물 기록, 인터뷰, 시설 기록 등 탐사 중 확보한 자료.",
+      "body": "카드 상세 설명을 입력합니다.",
+      "asset_label": "ARCHIVE DATA",
+      "visible": true
+    },
+    {
+      "category": "현장 장비",
+      "code": "FIELD EQUIPMENT",
+      "title": "현장 장비 카드 샘플",
+      "image": "",
+      "short": "공구, 보호 장비, 소모품, 회수 장비 등 현장에서 직접 사용하는 장비.",
+      "body": "실제 장비의 용도, 사용 조건, 현장 효과 등을 입력합니다.",
+      "asset_label": "USABLE ASSET",
+      "visible": true
+    },
+    {
+      "category": "지원 카드",
+      "code": "SUPPORT",
+      "title": "지원 카드 샘플",
+      "image": "",
+      "short": "기업, 작업팀, NPC의 기술 지원이나 제한적으로 사용할 수 있는 외부 자산.",
+      "body": "지원의 내용과 사용 조건 등을 입력합니다.",
+      "asset_label": "SUPPORT ASSET",
+      "visible": true
+    },
+    {
+      "category": "복합 카드",
+      "code": "COMPOSITE",
+      "title": "복합 카드 샘플",
+      "image": "",
+      "short": "시설 도면, 매뉴얼, 특수 부품처럼 기록 가치와 현장 효과를 함께 지닌 카드.",
+      "body": "기록 가치와 현장 효과를 함께 설명합니다.",
+      "asset_label": "MULTI ROLE",
+      "visible": true
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+/* =========================================================
+   PROJECT ARGO NOTE — COMMON UI
+   공통 스타일을 이 파일에서 관리합니다.
+   ========================================================= */
+
+/* 밝은 하늘색 원통형 스크롤바 */
+*{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(145,220,255,.92) transparent;
+}
+
+/* Chrome / Edge / Safari */
+*::-webkit-scrollbar{
+  width:9px;
+  height:9px;
+}
+
+*::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+*::-webkit-scrollbar-thumb{
+  background:rgba(145,220,255,.88);
+  border-radius:999px;
+  border:2px solid transparent;
+  background-clip:padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover{
+  background:rgba(185,238,255,.98);
+  border:2px solid transparent;
+  background-clip:padding-box;
+}
+
+*::-webkit-scrollbar-corner{
+  background:transparent;
+}

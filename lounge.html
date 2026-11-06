@@ -1,9 +1,637 @@
-<!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1a20"><title>SIGNAL LOUNGE — EARTH RE:BUILDING</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="css/site.css"><script src="js/inner.js" defer></script></head>
-<body class="inner-page"><div class="inner-shell">
-<header class="inner-top"><a class="inner-brand" href="./"><img src="assets/favicon.svg" alt="" width="28" height="28"><span>EARTH <em>RE:BUILDING</em> / SIGNAL</span></a><nav class="inner-nav" aria-label="이동"><a href="archive.html">아카이브 열기</a><a href="./" class="back-home">↶ 역사로 돌아가기</a></nav></header>
-<main><div class="inner-hero"><div class="inner-kicker">TERMINAL 01 / REST LOUNGE / MEDIA</div><h1>휴게실 <span style="color:var(--mint)">SIGNAL LOUNGE</span></h1><p>전쟁을 지나 다시 이어진 일상. 취재 기록과 지역 소식, 짧은 이야기가 모일 공간이다. 아직 제작되지 않은 기사나 방송을 실제 기록처럼 게시하지 않는다.</p></div>
-<div class="inner-content"><h2 class="section-title">기록의 두 시선</h2><p class="section-copy">현재는 공용 세계관에서 열람할 수 있는 배경 기록으로 연결됩니다.</p>
-<div class="info-grid"><article class="info-card"><span class="tag">01 / THE WORLD</span><h2>재건기의 하루</h2><p>파괴의 흔적이 남은 지구에서 학교와 회사, 음식점과 미디어가 이어진다. 평범한 생활이 재건의 또 다른 모습이다.</p><a href="archive.html?record=world-085">관련 세계관 기록 열람 ↗</a></article><article class="info-card"><span class="tag">02 / MULTISPECIES MEDIA</span><h2>서로 다른 문화의 교류</h2><p>은하 규모의 통신과 미디어가 연결되면서, 지구의 문화는 다른 문명과 영향을 주고받는다.</p><a href="archive.html?record=settings-091">관련 문화 기록 열람 ↗</a></article></div>
-<div class="empty-signal"><strong>기사·단편 게시판은 현재 준비 중</strong>실제 원고가 준비되면 신문 기사, 인터뷰, 단편을 이 공간에 추가할 수 있습니다. 이 화면은 현재 작동하는 콘텐츠의 범위를 명확히 표시합니다.</div>
-</div></main><footer class="inner-footer"><span>FIELD SIGNAL / LOUNGE</span><span>NO LIVE NEWS FEED</span></footer></div></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lounge</title>
+<link rel="stylesheet" href="css/common.css">
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:transparent;
+  color:#2d2b27;
+  font-family:"Noto Sans CJK KR","Noto Sans KR","Malgun Gothic",sans-serif;
+}
+
+body{
+  display:grid;
+  place-items:center;
+  padding:4.5vh 5.2vw;
+}
+
+/* =========================================================
+   BOOK / PAPER PANEL
+   ========================================================= */
+.book{
+  position:relative;
+  width:min(84vw,1480px);
+  height:min(82vh,830px);
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  background:
+    linear-gradient(90deg,
+      rgba(248,246,239,.97) 0%,
+      rgba(248,246,239,.97) 49.6%,
+      rgba(235,231,220,.98) 49.9%,
+      rgba(226,221,209,.98) 50%,
+      rgba(235,231,220,.98) 50.1%,
+      rgba(248,246,239,.97) 50.4%,
+      rgba(248,246,239,.97) 100%);
+
+  border:1px solid rgba(195,190,178,.42);
+  border-radius:4px;
+
+  box-shadow:
+    0 26px 88px rgba(0,0,0,.40),
+    0 3px 12px rgba(0,0,0,.08);
+
+  overflow:visible;
+}
+
+/* 책의 중앙 접힘 */
+.book::before{
+  content:"";
+  position:absolute;
+  z-index:2;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:1px;
+  transform:translateX(-50%);
+
+  background:rgba(110,104,93,.19);
+
+  box-shadow:
+    -8px 0 18px rgba(0,0,0,.04),
+     8px 0 18px rgba(0,0,0,.04);
+
+  pointer-events:none;
+}
+
+/* 아주 얇은 종이 외곽선 */
+.book::after{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border:1px solid rgba(135,130,119,.07);
+  pointer-events:none;
+}
+
+/* =========================================================
+   BOOKMARK BUTTONS
+   ========================================================= */
+.bookmarks{
+  position:absolute;
+  z-index:8;
+  top:-18px;
+  left:50%;
+  transform:translateX(-50%);
+
+  display:flex;
+  gap:10px;
+}
+
+.bookmark{
+  min-width:120px;
+  padding:9px 16px 11px;
+
+  border:1px solid rgba(120,113,100,.18);
+  border-bottom:0;
+  border-radius:6px 6px 0 0;
+
+  background:rgba(231,226,214,.97);
+  color:#5a554d;
+
+  font:inherit;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.12em;
+
+  cursor:pointer;
+
+  box-shadow:0 -4px 14px rgba(0,0,0,.05);
+
+  transition:
+    transform .15s ease,
+    background .15s ease,
+    color .15s ease;
+}
+
+.bookmark:hover,
+.bookmark:focus-visible{
+  transform:translateY(-2px);
+  outline:none;
+}
+
+.bookmark.active{
+  background:#faf8f2;
+  color:#292722;
+}
+
+/* =========================================================
+   PAGE LAYOUT
+   ========================================================= */
+.page{
+  position:relative;
+  min-width:0;
+  min-height:0;
+
+  padding:42px 38px 34px;
+
+  overflow:auto;
+}
+
+.page-left{
+  border-right:1px solid rgba(115,110,100,.06);
+}
+
+.page-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+
+  margin-bottom:22px;
+  padding-bottom:12px;
+
+  border-bottom:1px solid rgba(98,94,85,.13);
+}
+
+.page-kicker{
+  margin:0 0 4px;
+  color:rgba(65,62,57,.46);
+  font-size:8px;
+  letter-spacing:.20em;
+}
+
+.page-title{
+  margin:0;
+  color:#302e29;
+  font-size:18px;
+  font-weight:700;
+}
+
+.page-meta{
+  color:rgba(72,69,63,.40);
+  font-size:8px;
+  line-height:1.5;
+  letter-spacing:.10em;
+  text-align:right;
+}
+
+/* =========================================================
+   DEFAULT / COVER MODE
+   ========================================================= */
+.cover-panel{
+  height:calc(100% - 64px);
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  text-align:center;
+}
+
+.cover-thumb{
+  width:min(78%,440px);
+  aspect-ratio:16/9;
+
+  display:grid;
+  place-items:center;
+
+  margin-bottom:20px;
+
+  overflow:hidden;
+  border:1px solid rgba(100,96,88,.12);
+
+  background:rgba(223,219,208,.42);
+}
+
+.cover-thumb img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.cover-placeholder{
+  color:rgba(83,79,72,.40);
+  font-size:10px;
+  letter-spacing:.10em;
+}
+
+.cover-label{
+  margin:0 0 8px;
+  color:rgba(65,62,57,.48);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.16em;
+}
+
+.cover-copy{
+  max-width:360px;
+  margin:0;
+
+  color:#5b5750;
+  font-size:12px;
+  line-height:1.8;
+}
+
+/* =========================================================
+   LIST + ARTICLE MODE
+   왼쪽: 글 목록 / 오른쪽: 선택 글
+   ========================================================= */
+.article-list{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+.article-button{
+  width:100%;
+  padding:14px 3px;
+
+  border:0;
+  border-bottom:1px solid rgba(102,98,90,.12);
+
+  background:transparent;
+  color:#302e2a;
+
+  font:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+
+.article-button:hover,
+.article-button:focus-visible{
+  background:rgba(110,102,90,.045);
+  outline:none;
+}
+
+.article-button.active{
+  background:rgba(110,102,90,.065);
+}
+
+.article-category{
+  display:block;
+  margin-bottom:5px;
+
+  color:rgba(74,71,65,.42);
+  font-size:8px;
+  letter-spacing:.14em;
+}
+
+.article-title{
+  display:block;
+  font-size:15px;
+  font-weight:700;
+  line-height:1.45;
+}
+
+.article-date{
+  display:block;
+  margin-top:5px;
+
+  color:rgba(74,71,65,.42);
+  font-size:9px;
+}
+
+.article-view{
+  padding:4px 4px 40px;
+}
+
+.article-view h2{
+  margin:0 0 8px;
+  color:#2d2b27;
+  font-size:24px;
+  line-height:1.45;
+}
+
+.article-view .meta{
+  margin:0 0 24px;
+  color:rgba(71,68,62,.48);
+  font-size:9px;
+  letter-spacing:.08em;
+}
+
+.article-image{
+  width:100%;
+  aspect-ratio:16/9;
+  margin-bottom:22px;
+
+  overflow:hidden;
+  border:1px solid rgba(100,96,88,.12);
+  background:rgba(223,219,208,.42);
+}
+
+.article-image img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.article-view p{
+  margin:0 0 14px;
+  color:#48453f;
+  font-size:13px;
+  line-height:1.95;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+@media(max-width:850px){
+  body{
+    padding:4vh 3vw;
+    overflow:auto;
+  }
+
+  .book{
+    width:94vw;
+    height:auto;
+    min-height:90vh;
+
+    grid-template-columns:1fr;
+
+    background:rgba(248,246,239,.97);
+  }
+
+  .book::before{
+    display:none;
+  }
+
+  .bookmarks{
+    position:sticky;
+    top:0;
+    transform:none;
+    left:auto;
+    justify-content:center;
+    margin-top:-18px;
+    grid-column:1;
+  }
+
+  .page{
+    min-height:46vh;
+    padding:34px 24px;
+  }
+
+  .page-left{
+    border-right:0;
+    border-bottom:1px solid rgba(115,110,100,.10);
+  }
+}
+</style>
+</head>
+
+<body id="loungeBody">
+
+<main class="book" id="loungeBook">
+
+  <nav class="bookmarks" aria-label="휴게실 읽을거리">
+    <button class="bookmark" id="newsTab" type="button">NEWS</button>
+    <button class="bookmark" id="storyTab" type="button">SHORT STORY</button>
+  </nav>
+
+  <section class="page page-left" id="leftPage"></section>
+  <section class="page page-right" id="rightPage"></section>
+
+</main>
+
+<script>
+/* =========================================================
+   이미지 파일 규칙
+   이미지가 아직 없다면 자동으로 플레이스홀더가 표시된다.
+   ========================================================= */
+const NEWS_IMAGES = [
+  "images/NEWS_01.jpg",
+  "images/NEWS_02.jpg",
+  "images/NEWS_03.jpg",
+  "images/NEWS_04.jpg"
+];
+
+const STORY_IMAGES = [
+  "images/STORY_01.jpg",
+  "images/STORY_02.jpg",
+  "images/STORY_03.jpg",
+  "images/STORY_04.jpg"
+];
+
+/* 샘플 데이터. 나중에 실제 기사/단편 데이터로 교체 */
+const NEWS_ARTICLES = [
+  {
+    title: "서울 복구 사업 신규 구간 개방",
+    date: "FIELD NEWS / ISSUE 01",
+    image: "images/NEWS_01.jpg",
+    body: [
+      "서울 생활권 확장을 위한 신규 복구 구간이 단계적으로 개방될 예정이다.",
+      "현장 조사와 시설 보강, 거대 생물 이동 경로 조정이 병행되며 일반 접근은 순차적으로 허용된다."
+    ]
+  },
+  {
+    title: "거대 생물 이동 경로 재조정",
+    date: "FIELD NEWS / ISSUE 02",
+    image: "images/NEWS_02.jpg",
+    body: [
+      "생활권과 생태권의 충돌을 줄이기 위한 이동 경로 조정 계획이 발표되었다.",
+      "퇴치보다는 먹이 활동 구역과 완충 지대를 이동시키는 방식이 중심이다."
+    ]
+  },
+  {
+    title: "지하철 복구 작업 현장 소식",
+    date: "FIELD NEWS / ISSUE 03",
+    image: "images/NEWS_03.jpg",
+    body: [
+      "노후 지하 구조물의 보강 작업과 터널 점검이 계속되고 있다.",
+      "복구가 끝난 일부 구간에서는 간이 전차와 유지보수 차량의 운행이 재개되었다."
+    ]
+  }
+];
+
+const STORY_ARTICLES = [
+  {
+    title: "짧은 여행 기록",
+    date: "SHORT STORY / FILE 01",
+    image: "images/STORY_01.jpg",
+    body: [
+      "복구 구역을 지나 오래된 도시의 흔적을 바라보는 짧은 여행기.",
+      "거대한 자연과 인간의 생활권이 맞닿은 풍경을 중심으로 이야기가 진행된다."
+    ]
+  },
+  {
+    title: "현장 취재 노트",
+    date: "SHORT STORY / FILE 02",
+    image: "images/STORY_02.jpg",
+    body: [
+      "복구 현장을 찾은 취재팀과 작업자들의 짧은 대화를 기록한 이야기.",
+      "거대한 사건보다 현장에서 살아가는 사람들의 일상과 태도에 초점을 맞춘다."
+    ]
+  },
+  {
+    title: "휴게실에서",
+    date: "SHORT STORY / FILE 03",
+    image: "images/STORY_03.jpg",
+    body: [
+      "하루 작업이 끝난 뒤 휴게실에서 오가는 잡담과 기사 이야기를 담은 짧은 에피소드.",
+      "세계관 설명보다 인물과 생활의 분위기를 자연스럽게 보여주는 형식이다."
+    ]
+  }
+];
+
+const loungeBody = document.getElementById("loungeBody");
+const loungeBook = document.getElementById("loungeBook");
+const leftPage = document.getElementById("leftPage");
+const rightPage = document.getElementById("rightPage");
+const newsTab = document.getElementById("newsTab");
+const storyTab = document.getElementById("storyTab");
+
+let activeMode = "cover";
+
+function pickRandom(list){
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+function imageBlock(path, alt){
+  return `
+    <div class="cover-thumb">
+      <img src="${path}" alt="${alt}" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+      <span class="cover-placeholder" style="display:none;">IMAGE PREVIEW</span>
+    </div>
+  `;
+}
+
+function articleImage(path, alt){
+  return `
+    <div class="article-image">
+      <img src="${path}" alt="${alt}" onerror="this.style.display='none';">
+    </div>
+  `;
+}
+
+/* 첫 화면: NEWS와 SHORT STORY 양쪽에 랜덤 이미지 1장씩 */
+function renderCover(){
+  activeMode = "cover";
+  newsTab.classList.remove("active");
+  storyTab.classList.remove("active");
+
+  const newsImage = pickRandom(NEWS_IMAGES);
+  const storyImage = pickRandom(STORY_IMAGES);
+
+  leftPage.innerHTML = `
+    <header class="page-header">
+      <div>
+        <p class="page-kicker">LOUNGE READING MATERIAL</p>
+        <h1 class="page-title">NEWS</h1>
+      </div>
+      <div class="page-meta">PROJECT ARGO NOTE<br>READING FILE</div>
+    </header>
+
+    <div class="cover-panel">
+      ${imageBlock(newsImage, "뉴스 미리보기")}
+      <p class="cover-label">NEWS</p>
+      <p class="cover-copy">현장 소식과 기사 자료를 열람합니다. 상단 책갈피를 선택하면 기사 목록으로 이동합니다.</p>
+    </div>
+  `;
+
+  rightPage.innerHTML = `
+    <header class="page-header">
+      <div>
+        <p class="page-kicker">LOUNGE READING MATERIAL</p>
+        <h1 class="page-title">SHORT STORY</h1>
+      </div>
+      <div class="page-meta">PROJECT ARGO NOTE<br>STORY FILE</div>
+    </header>
+
+    <div class="cover-panel">
+      ${imageBlock(storyImage, "단편 미리보기")}
+      <p class="cover-label">SHORT STORY</p>
+      <p class="cover-copy">단편, 취재 기록, 여행기를 열람합니다. 상단 책갈피를 선택하면 글 목록으로 이동합니다.</p>
+    </div>
+  `;
+}
+
+/* 한쪽 탭을 클릭하면 왼쪽 = 목록 / 오른쪽 = 선택 내용 */
+function renderSection(type){
+  const isNews = type === "news";
+  const data = isNews ? NEWS_ARTICLES : STORY_ARTICLES;
+
+  activeMode = type;
+  newsTab.classList.toggle("active", isNews);
+  storyTab.classList.toggle("active", !isNews);
+
+  leftPage.innerHTML = `
+    <header class="page-header">
+      <div>
+        <p class="page-kicker">LOUNGE READING MATERIAL</p>
+        <h1 class="page-title">${isNews ? "NEWS" : "SHORT STORY"}</h1>
+      </div>
+      <div class="page-meta">INDEX</div>
+    </header>
+
+    <div class="article-list">
+      ${data.map((item,index)=>`
+        <button class="article-button ${index===0 ? "active" : ""}" type="button" data-index="${index}">
+          <span class="article-category">${isNews ? "NEWS FILE" : "STORY FILE"}</span>
+          <span class="article-title">${item.title}</span>
+          <span class="article-date">${item.date}</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  renderArticle(data[0]);
+
+  leftPage.querySelectorAll(".article-button").forEach((button)=>{
+    button.addEventListener("click",()=>{
+      leftPage.querySelectorAll(".article-button").forEach(b=>b.classList.remove("active"));
+      button.classList.add("active");
+      renderArticle(data[Number(button.dataset.index)]);
+    });
+  });
+}
+
+function renderArticle(item){
+  rightPage.innerHTML = `
+    <header class="page-header">
+      <div>
+        <p class="page-kicker">SELECTED FILE</p>
+        <h1 class="page-title">READING</h1>
+      </div>
+      <div class="page-meta">${item.date}</div>
+    </header>
+
+    <article class="article-view">
+      <h2>${item.title}</h2>
+      <p class="meta">${item.date}</p>
+      ${articleImage(item.image,item.title)}
+      ${item.body.map(p=>`<p>${p}</p>`).join("")}
+    </article>
+  `;
+}
+
+newsTab.addEventListener("click",()=>renderSection("news"));
+storyTab.addEventListener("click",()=>renderSection("story"));
+
+/* 패널 외부 클릭 → MAIN */
+loungeBody.addEventListener("click",(event)=>{
+  if(!loungeBook.contains(event.target)){
+    parent.postMessage("ARGO_CLOSE_PANEL","*");
+  }
+});
+
+loungeBook.addEventListener("click",(event)=>{
+  event.stopPropagation();
+});
+
+renderCover();
+</script>
+</body>
+</html>

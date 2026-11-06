@@ -1,40 +1,1295 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b1a20">
-  <meta name="description" content="EARTH RE:BUILDING — FIELD ARCHIVE. 세계관, 설정, 지역, 집단, 인물을 열람합니다.">
-  <title>FIELD ARCHIVE — EARTH RE:BUILDING</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/site.css">
-  <link rel="stylesheet" href="css/archive.css">
-  <script src="js/archive.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Archive</title>
+
+<link rel="stylesheet" href="css/common.css">
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:transparent;
+  color:#edf4f7;
+  font-family:"Noto Sans CJK KR","Noto Sans KR","Malgun Gothic",sans-serif;
+}
+
+body{
+  display:grid;
+  place-items:center;
+  padding:0;
+}
+
+.archive-window{
+  position:relative;
+
+  /* 화면 좌우 약 5%, 상하 약 3%만 남기는 크기 */
+  width:84vw;
+  height:94vh;
+  max-width:none;
+  max-height:none;
+
+  display:flex;
+  flex-direction:column;
+
+  overflow:hidden;
+  border:1px solid rgba(145,215,250,.66);
+  border-radius:10px;
+
+  background:
+    linear-gradient(180deg,
+      rgba(18,72,104,.60),
+      rgba(9,40,61,.54));
+
+  box-shadow:
+    0 24px 90px rgba(0,0,0,.48),
+    0 0 24px rgba(92,196,245,.16),
+    inset 0 0 42px rgba(85,190,235,.05);
+
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+/* =========================================================
+   ARCHIVE TABS
+   ========================================================= */
+.archive-tabs{
+  flex:0 0 auto;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:15px 22px;
+
+  border-bottom:1px solid rgba(190,230,247,.14);
+
+  background:rgba(2,14,22,.11);
+}
+
+.archive-brand{
+  margin-right:auto;
+
+  color:rgba(218,237,246,.50);
+  font-size:9px;
+  letter-spacing:.17em;
+}
+
+.archive-tab{
+  padding:8px 14px;
+
+  border:1px solid rgba(190,230,247,.14);
+  border-radius:4px;
+
+  background:rgba(4,21,31,.14);
+  color:#c6d5dc;
+
+  font:inherit;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.06em;
+
+  cursor:pointer;
+}
+
+.archive-tab:hover,
+.archive-tab:focus-visible{
+  border-color:rgba(160,222,250,.42);
+  outline:none;
+}
+
+.archive-tab.active{
+  background:rgba(62,150,191,.20);
+  border-color:rgba(135,218,255,.64);
+  color:#fff;
+}
+
+/* =========================================================
+   COMMON
+   ========================================================= */
+.archive-content{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:hidden;
+}
+
+.empty-state{
+  padding:30px;
+
+  color:#b9c9d0;
+  font-size:13px;
+  line-height:1.8;
+}
+
+/* =========================================================
+   WORLD
+   ========================================================= */
+.world-view{
+  height:100%;
+  padding:30px 38px 40px;
+  overflow:auto;
+}
+
+.world-header{
+  margin-bottom:18px;
+  padding-bottom:14px;
+
+  border-bottom:1px solid rgba(190,230,247,.13);
+}
+
+.world-kicker{
+  margin:0 0 6px;
+
+  color:rgba(207,228,238,.48);
+  font-size:9px;
+  letter-spacing:.18em;
+}
+
+.world-header h1{
+  margin:0;
+
+  color:#fff;
+  font-size:26px;
+  font-weight:600;
+}
+
+.world-doc{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.world-entry{
+  padding:16px 18px;
+
+  border:1px solid rgba(190,230,247,.10);
+  border-radius:5px;
+
+  background:rgba(2,13,20,.12);
+}
+
+.world-entry-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  margin:0 0 7px;
+
+  color:#eaf4f8;
+  font-size:14px;
+  font-weight:600;
+}
+
+.world-entry-title::before{
+  content:"◆";
+  color:#79cfff;
+  font-size:8px;
+}
+
+.world-entry p{
+  margin:0;
+
+  color:#cad7dc;
+  font-size:13px;
+  line-height:1.8;
+}
+
+/* =========================================================
+   SETTING / REGION / GROUP
+   ========================================================= */
+.catalog-view{
+  height:100%;
+
+  display:grid;
+  grid-template-columns:300px 1fr;
+}
+
+.catalog-index{
+  padding:26px 20px;
+
+  overflow:auto;
+
+  border-right:1px solid rgba(190,230,247,.13);
+}
+
+.catalog-index-label{
+  margin:0 0 13px;
+  padding:0 8px;
+
+  color:rgba(216,235,244,.46);
+  font-size:9px;
+  letter-spacing:.17em;
+}
+
+.catalog-button{
+  width:100%;
+  padding:12px 10px;
+
+  border:0;
+  border-bottom:1px solid rgba(190,230,247,.08);
+
+  background:transparent;
+  color:#bdccd3;
+
+  font:inherit;
+  font-size:12px;
+  line-height:1.5;
+  text-align:left;
+
+  cursor:pointer;
+}
+
+.catalog-button:hover,
+.catalog-button:focus-visible,
+.catalog-button.active{
+  background:rgba(67,145,180,.13);
+  color:#fff;
+  outline:none;
+}
+
+.catalog-detail{
+  padding:30px 40px 40px;
+  overflow:auto;
+}
+
+.catalog-kicker{
+  margin:0 0 7px;
+
+  color:rgba(207,228,238,.48);
+  font-size:9px;
+  letter-spacing:.16em;
+}
+
+.catalog-image{
+  position:relative;
+
+  /*
+    바깥 패널만 확대하고 대표 이미지 영역은 과하게 키우지 않는다.
+    넓어진 상세 영역의 왼쪽 위에 기존 체감 크기로 배치한다.
+  */
+  width:min(100%,1055px);
+  aspect-ratio:16/8.3;
+  min-height:0;
+  max-height:none;
+
+  margin:0 0 18px 0;
+
+  overflow:hidden;
+
+  background:
+    linear-gradient(135deg,
+      rgba(29,74,98,.28),
+      rgba(5,25,37,.34));
+}
+
+.catalog-image img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.catalog-image.logo-image img{
+  object-fit:contain;
+  padding:7%;
+}
+
+.catalog-image-placeholder{
+  position:absolute;
+  inset:0;
+
+  display:grid;
+  place-items:center;
+
+  color:rgba(214,235,245,.38);
+  font-size:10px;
+  letter-spacing:.12em;
+}
+
+.catalog-detail h1{
+  margin:0 0 8px;
+
+  color:#fff;
+  font-size:31px;
+  font-weight:600;
+}
+
+.catalog-short{
+  margin:0 0 12px;
+
+  color:#d9e4e9;
+  font-size:13px;
+  line-height:1.75;
+}
+
+.catalog-body{
+  color:#bdcbd1;
+  font-size:12px;
+  line-height:1.8;
+}
+
+.catalog-body p{
+  margin:0 0 10px;
+}
+
+/* =========================================================
+   PERSONNEL ROSTER
+   ========================================================= */
+.personnel-roster{
+  height:100%;
+  padding:30px 34px 40px;
+  overflow:auto;
+}
+
+.roster-note{
+  margin:0 0 18px;
+
+  color:rgba(210,231,240,.52);
+  font-size:10px;
+  letter-spacing:.10em;
+}
+
+.roster-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+
+.roster-card{
+  position:relative;
+
+  min-height:235px;
+
+  overflow:hidden;
+
+  border:1px solid rgba(190,230,247,.13);
+  border-radius:5px;
+
+  background:rgba(2,13,20,.13);
+
+  cursor:pointer;
+
+  transition:
+    transform .16s ease,
+    border-color .16s ease,
+    background .16s ease;
+}
+
+.roster-card:hover,
+.roster-card:focus-visible{
+  transform:translateY(-2px);
+
+  border-color:rgba(139,218,255,.46);
+
+  background:rgba(25,77,101,.18);
+
+  outline:none;
+}
+
+.roster-image{
+  width:100%;
+  aspect-ratio:16/10;
+
+  display:grid;
+  place-items:center;
+
+  overflow:hidden;
+
+  background:rgba(3,17,26,.28);
+}
+
+.roster-image img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.roster-placeholder{
+  color:rgba(212,232,241,.38);
+  font-size:10px;
+  letter-spacing:.10em;
+}
+
+.roster-name{
+  padding:13px 15px 14px;
+
+  color:#f0f6f8;
+  font-size:15px;
+  font-weight:600;
+}
+
+/* =========================================================
+   PERSONNEL DETAIL
+   ========================================================= */
+.personnel-detail{
+  height:100%;
+
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+}
+
+.viewer{
+  min-width:0;
+  padding:30px 30px 26px;
+
+  display:flex;
+  flex-direction:column;
+
+  border-right:1px solid rgba(190,230,247,.15);
+}
+
+.viewer-main{
+  position:relative;
+
+  flex:1;
+  min-height:0;
+
+  display:grid;
+  place-items:center;
+
+  overflow:hidden;
+
+  border:1px solid rgba(190,230,247,.19);
+  border-radius:5px;
+
+  background:rgba(2,12,19,.25);
+}
+
+.viewer-main::before{
+  content:"PERSONNEL IMAGE VIEWER";
+
+  position:absolute;
+  left:16px;
+  top:13px;
+
+  color:rgba(220,238,246,.43);
+  font-size:9px;
+  letter-spacing:.18em;
+}
+
+.viewer-main img{
+  display:block;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
+
+.detail-placeholder{
+  color:rgba(221,235,241,.46);
+  font-size:11px;
+  letter-spacing:.08em;
+}
+
+.thumb-row{
+  height:78px;
+  margin-top:10px;
+
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+
+.thumb{
+  display:grid;
+  place-items:center;
+
+  border:1px solid rgba(195,228,242,.16);
+  border-radius:4px;
+
+  background:rgba(4,18,27,.22);
+  color:#cbd9df;
+
+  font-size:10px;
+
+  cursor:pointer;
+}
+
+.thumb.active{
+  border-color:rgba(128,216,255,.72);
+  background:rgba(43,116,150,.20);
+}
+
+.profile{
+  min-width:0;
+  padding:34px 40px 32px;
+  overflow:auto;
+}
+
+.back-roster{
+  margin:0 0 18px;
+  padding:6px 0;
+
+  border:0;
+
+  background:transparent;
+  color:#a9c1cd;
+
+  font:inherit;
+  font-size:10px;
+  letter-spacing:.08em;
+
+  cursor:pointer;
+}
+
+.back-roster:hover{
+  color:#fff;
+}
+
+.profile-name{
+  display:flex;
+  align-items:baseline;
+  gap:13px;
+
+  margin:0 0 11px;
+}
+
+.profile-name h1{
+  margin:0;
+
+  color:#fff;
+  font-size:36px;
+  font-weight:600;
+}
+
+.meta{
+  color:#aebdc5;
+  font-size:12px;
+}
+
+.quote{
+  margin:0 0 25px;
+  padding-left:11px;
+
+  border-left:2px solid rgba(113,203,245,.68);
+
+  color:#d1dbe0;
+  font-size:14px;
+  font-style:italic;
+}
+
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  column-gap:40px;
+  row-gap:14px;
+}
+
+.info-pair,
+.info-wide{
+  display:grid;
+  grid-template-columns:54px 1fr;
+  gap:9px;
+}
+
+.info-wide{
+  margin-top:14px;
+}
+
+.label{
+  color:#9eb0ba;
+  font-size:12px;
+}
+
+.value{
+  color:#f0f4f6;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.divider{
+  margin:23px 0 17px;
+  height:1px;
+
+  background:rgba(216,235,244,.34);
+}
+
+.summary{
+  margin:0;
+
+  color:#d9e1e5;
+  font-size:13px;
+  line-height:1.9;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media(max-width:1100px){
+  .roster-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(max-width:920px){
+  body{
+    padding:2vh 2vw;
+    overflow:auto;
+  }
+
+  .archive-window{
+    width:96vw;
+    height:auto;
+    min-height:94vh;
+    max-width:none;
+  }
+
+  .archive-tabs{
+    flex-wrap:wrap;
+  }
+
+  .archive-brand{
+    width:100%;
+  }
+
+  .catalog-view,
+  .personnel-detail{
+    grid-template-columns:1fr;
+  }
+
+  .catalog-index,
+  .viewer{
+    border-right:0;
+    border-bottom:1px solid rgba(190,230,247,.15);
+  }
+
+  .catalog-index{
+    max-height:220px;
+  }
+
+  .roster-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .viewer{
+    min-height:560px;
+  }
+}
+
+@media(max-width:620px){
+  .archive-tab{
+    flex:1 1 auto;
+  }
+
+  .roster-grid{
+    grid-template-columns:1fr;
+  }
+
+  .world-view,
+  .catalog-detail,
+  .personnel-roster,
+  .profile{
+    padding-left:22px;
+    padding-right:22px;
+  }
+
+  .catalog-image{
+    width:100%;
+  }
+}
+
+/* =========================================================
+   ARCHIVE HIERARCHY — Original colors/panel geometry preserved
+   Only nested index navigation is added.
+   ========================================================= */
+.archive-category{
+  margin-bottom:8px;
+  border-bottom:1px solid rgba(190,230,247,.055);
+}
+.archive-category-toggle{
+  width:100%;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  padding:12px 9px;
+  border:0;
+  border-radius:3px;
+  background:transparent;
+  color:#e5eef2;
+  text-align:left;
+  font:inherit;
+  font-size:12px;
+  font-weight:600;
+  line-height:1.45;
+  cursor:pointer;
+}
+.archive-category-toggle:hover,
+.archive-category-toggle:focus-visible{
+  background:rgba(67,145,180,.13);
+  outline:none;
+}
+.archive-category-toggle[aria-expanded="true"]{
+  color:#fff;
+  background:rgba(62,150,191,.12);
+}
+.archive-category-caret{
+  display:inline-block;
+  color:#79cfff;
+  font-size:10px;
+  transition:transform .15s ease;
+}
+.archive-category-toggle[aria-expanded="true"] .archive-category-caret{
+  transform:rotate(90deg);
+}
+.archive-category-count{
+  margin-left:auto;
+  color:rgba(211,233,242,.4);
+  font-size:10px;
+  font-weight:400;
+}
+.archive-sublist{
+  padding:0 0 9px 14px;
+}
+.archive-sublist[hidden]{display:none}
+.archive-sublist .catalog-button{
+  padding:9px 11px;
+  font-size:11px;
+  line-height:1.45;
+}
+.archive-index-intro{
+  margin:0 8px 16px;
+  color:rgba(207,225,233,.75);
+  font-size:11px;
+  line-height:1.75;
+}
+.archive-no-image{margin-top:0}
+.archive-error{padding:16px 0;color:#b9c9d0;font-size:12px;line-height:1.8}
+@media (max-width:920px){
+  .catalog-index{max-height:min(40vh,360px)}
+}
+</style>
 </head>
-<body class="archive-page inner-page">
-  <a class="skip-link" href="#archive-detail">본문으로 건너뛰기</a>
-  <div class="inner-shell">
-    <header class="inner-top">
-      <a class="inner-brand" href="./"><img src="assets/favicon.svg" alt="" width="28" height="28"><span>EARTH <em>RE:BUILDING</em> / RECORDS</span></a>
-      <nav class="inner-nav" aria-label="이동"><a href="./" class="back-home">↶ 역사로 돌아가기</a></nav>
-    </header>
-    <main class="archive-layout">
-      <header class="archive-header">
-        <div class="archive-header-top">
-          <div><div class="kicker">INFORMATION TERMINAL // DATABASE A-01</div><h1>FIELD <b>ARCHIVE</b></h1><p>세계관의 기록을 선택해 열람합니다. 개별 기록은 독립적으로 수정·관리할 수 있습니다.</p></div>
-          <div class="archive-meta">RECONSTRUCTION ERA / YEAR 33<strong id="record-total">RECORD SYSTEM</strong></div>
+
+<body id="archiveBody">
+
+<main class="archive-window" id="archiveWindow">
+
+  <nav class="archive-tabs">
+    <div class="archive-brand">SEOUL RESTORATION NETWORK / ARCHIVE</div>
+
+    <button class="archive-tab active" data-view="world" type="button">세계관</button>
+    <button class="archive-tab" data-view="setting" type="button">설정</button>
+    <button class="archive-tab" data-view="region" type="button">지역</button>
+    <button class="archive-tab" data-view="group" type="button">집단</button>
+    <button class="archive-tab" data-view="personnel" type="button">인물</button>
+  </nav>
+
+  <section class="archive-content" id="archiveContent">
+    <div class="empty-state">ARCHIVE DATA LOADING...</div>
+  </section>
+
+</main>
+
+<script>
+let WORLD_DATA = [];
+let SETTING_DATA = [];
+let REGION_DATA = [];
+let GROUP_DATA = [];
+let PERSONNEL_DATA = [];
+
+const archiveBody = document.getElementById("archiveBody");
+const archiveWindow = document.getElementById("archiveWindow");
+const archiveContent = document.getElementById("archiveContent");
+const tabs = [...document.querySelectorAll(".archive-tab")];
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function visibleItems(items){
+  return (Array.isArray(items) ? items : [])
+    .filter(item=>item?.visible !== false);
+}
+
+function normalizeItems(data){
+  if(Array.isArray(data)) return data;
+  if(Array.isArray(data?.items)) return data.items;
+  return [];
+}
+
+function splitParagraphs(value){
+  if(Array.isArray(value)){
+    return value
+      .map(v=>String(v ?? "").trim())
+      .filter(Boolean);
+  }
+
+  return String(value ?? "")
+    .split(/\n\s*\n/)
+    .map(v=>v.trim())
+    .filter(Boolean);
+}
+
+function personGallery(person){
+  const flat = [
+    person.gallery1,
+    person.gallery2,
+    person.gallery3,
+    person.gallery4,
+    person.gallery5
+  ].filter(Boolean);
+
+  if(flat.length) return flat;
+
+  if(Array.isArray(person.gallery)){
+    return person.gallery.filter(Boolean).slice(0,5);
+  }
+
+  return [];
+}
+
+function personOutfits(person){
+  const flat = [
+    person.outfit1,
+    person.outfit2,
+    person.outfit3
+  ].filter(Boolean);
+
+  if(flat.length) return flat;
+
+  if(Array.isArray(person.outfits)){
+    return person.outfits.filter(Boolean).slice(0,3);
+  }
+
+  return [];
+}
+
+async function loadJson(path){
+  const response = await fetch(path,{cache:"no-store"});
+
+  if(!response.ok){
+    throw new Error(`${path} (${response.status})`);
+  }
+
+  return response.json();
+}
+
+/* =========================================================
+   WORLD
+   ========================================================= */
+const ARCHIVE_CATEGORY_INFO = {
+  world:{code:"WORLD",indexLabel:"WORLD INDEX",defaultKicker:"WORLD BACKGROUND"},
+  setting:{code:"SETTINGS",indexLabel:"SETTING INDEX",defaultKicker:"SETTING"},
+  region:{code:"REGIONS",indexLabel:"REGION INDEX",defaultKicker:"REGION"},
+  group:{code:"GROUPS",indexLabel:"GROUP INDEX",defaultKicker:"GROUP / ORGANIZATION",logoMode:true}
+};
+let ARCHIVE_INDEX = {categories:[],records:[]};
+let archiveLoadEpoch = 0;
+const archiveSelection = {};
+
+/* A single original catalog panel now powers WORLD, SETTINGS, REGIONS, GROUPS. */
+function renderCategory(view){
+  const info = ARCHIVE_CATEGORY_INFO[view];
+  const category = ARCHIVE_INDEX.categories.find(c=>c.id===info.code);
+  const records = ARCHIVE_INDEX.records.filter(record=>record.category===info.code);
+  const sections = (category?.sections || []).map(section=>({
+    ...section,
+    records:records.filter(record=>record.section===section.id)
+  })).filter(section=>section.records.length>0);
+  const state = archiveSelection[view] || {};
+  const currentSection = sections.find(section=>section.id===state.section)
+    || sections[0];
+  const first = records.find(record=>record.id===state.record)
+    || currentSection?.records[0];
+
+  archiveLoadEpoch += 1; // Invalidate slow fetches when a tab changes.
+  archiveContent.innerHTML = `
+    <section class="catalog-view">
+      <aside class="catalog-index" aria-label="${escapeHtml(info.indexLabel)}">
+        <p class="catalog-index-label">${escapeHtml(info.indexLabel)}</p>
+        ${view==="group" ? `<p class="archive-index-intro">은하 공동체에는 개별 행성의 이해관계에서 독립된 전문 기관들이 존재하며, 지구 공공기관과 주요 기업 역시 각자의 역할을 수행하고 있습니다.</p>` : ""}
+        ${sections.length ? sections.map((section)=>`
+          <div class="archive-category" data-section-container="${escapeHtml(section.id)}">
+            <button class="archive-category-toggle" type="button"
+              aria-expanded="${section.id===currentSection?.id ? "true" : "false"}"
+              data-section="${escapeHtml(section.id)}">
+              <span class="archive-category-caret" aria-hidden="true">▸</span>
+              <span>${escapeHtml(section.title)}</span>
+              <span class="archive-category-count">${section.records.length}</span>
+            </button>
+            <div class="archive-sublist" ${section.id===currentSection?.id?"":"hidden"}>
+              ${section.records.map((record)=>`
+                <button class="catalog-button ${record.id===first?.id?"active":""}"
+                  type="button" data-record="${escapeHtml(record.id)}">
+                  ${escapeHtml(record.title)}
+                </button>`).join("")}
+            </div>
+          </div>`).join("")
+        : `<div class="empty-state">등록된 항목이 없습니다.</div>`}
+      </aside>
+      <article class="catalog-detail" id="catalogDetail" aria-live="polite"></article>
+    </section>`;
+
+  const detail = archiveContent.querySelector("#catalogDetail");
+  const toggles = [...archiveContent.querySelectorAll(".archive-category-toggle")];
+  const recordButtons = [...archiveContent.querySelectorAll(".catalog-button[data-record]")];
+
+  function setExpanded(sectionId, forceOpen=false){
+    toggles.forEach(toggle=>{
+      const expanded = toggle.getAttribute("aria-expanded")==="true";
+      const shouldOpen = toggle.dataset.section===sectionId && (forceOpen || !expanded);
+      toggle.setAttribute("aria-expanded",String(shouldOpen));
+      const list=toggle.nextElementSibling;
+      if(list) list.hidden=!shouldOpen;
+    });
+    archiveSelection[view] = {...archiveSelection[view],section:sectionId};
+  }
+
+  async function displayRecord(record){
+    const thisEpoch=++archiveLoadEpoch;
+    const section=sections.find(s=>s.id===record.section);
+    if(section) setExpanded(section.id,true);
+    recordButtons.forEach(button=>{
+      button.classList.toggle("active",button.dataset.record===record.id);
+    });
+    archiveSelection[view]={section:record.section,record:record.id};
+    detail.innerHTML='<div class="archive-error">기록을 불러오는 중입니다...</div>';
+    try{
+      const data=await loadJson(record.path);
+      if(thisEpoch!==archiveLoadEpoch) return;
+      const title=data.title||record.title||"";
+      const kicker=data.type||info.defaultKicker;
+      const paragraphs=splitParagraphs(data.body);
+      const image=data.image||"";
+      detail.innerHTML=`
+        <p class="catalog-kicker">${escapeHtml(kicker)}</p>
+        ${image?`
+          <div class="catalog-image ${info.logoMode?"logo-image":""}">
+            <img src="${escapeHtml(image)}" alt="${escapeHtml(title)}"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='grid';">
+            <div class="catalog-image-placeholder" style="display:none;">IMAGE UNAVAILABLE</div>
+          </div>`:""}
+        <h1>${escapeHtml(title)}</h1>
+        <div class="catalog-body archive-no-image">
+          ${paragraphs.length
+            ?paragraphs.map(p=>`<p>${escapeHtml(p).replaceAll("\n","<br>")}</p>`).join("")
+            :`<p>${escapeHtml(data.short||record.summary||"")}</p>`}
+        </div>`;
+      detail.scrollTop=0;
+    }catch(error){
+      if(thisEpoch!==archiveLoadEpoch)return;
+      console.error(error);
+      detail.innerHTML=`<div class="archive-error">기록을 불러오지 못했습니다. 파일 경로를 확인해 주세요.</div>`;
+    }
+  }
+  toggles.forEach(button=>{
+    button.addEventListener("click",()=>{
+      const sectionId=button.dataset.section;
+      const wasOpen=button.getAttribute("aria-expanded")==="true";
+      // Keep the hierarchy compact; opening a group also shows its first record.
+      setExpanded(sectionId,false);
+      if(!wasOpen){
+        const section=sections.find(s=>s.id===sectionId);
+        if(section?.records.length) displayRecord(section.records[0]);
+      }
+    });
+  });
+  recordButtons.forEach(button=>{
+    button.addEventListener("click",()=>{
+      const record=records.find(r=>r.id===button.dataset.record);
+      if(record) displayRecord(record);
+    });
+  });
+  if(first) displayRecord(first);
+  else detail.innerHTML='<div class="empty-state">등록된 항목이 없습니다.</div>';
+}
+
+function renderWorld(){renderCategory("world");}
+function renderSetting(){renderCategory("setting");}
+function renderRegion(){renderCategory("region");}
+function renderGroup(){renderCategory("group");}
+
+/* =========================================================
+   PERSONNEL
+   ========================================================= */
+function renderPersonnelRoster(){
+  const list = visibleItems(PERSONNEL_DATA);
+
+  archiveContent.innerHTML = `
+    <section class="personnel-roster">
+
+      <p class="roster-note">
+        REGISTERED PERSONNEL / 명부에 등록된 인원
+      </p>
+
+      ${
+        list.length
+          ? `<div class="roster-grid">
+              ${list.map((person,index)=>`
+                <button
+                  class="roster-card"
+                  type="button"
+                  data-index="${index}"
+                >
+                  <div class="roster-image">
+                    ${
+                      person.cover
+                        ? `<img
+                             src="${escapeHtml(person.cover)}"
+                             alt="${escapeHtml(person.name)}"
+                             onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+                           >`
+                        : ``
+                    }
+
+                    <span
+                      class="roster-placeholder"
+                      style="${person.cover ? "display:none;" : ""}"
+                    >
+                      REPRESENTATIVE IMAGE
+                    </span>
+                  </div>
+
+                  <div class="roster-name">
+                    ${escapeHtml(person.name || "UNKNOWN")}
+                  </div>
+                </button>
+              `).join("")}
+            </div>`
+          : `<div class="empty-state">등록된 인물이 없습니다.</div>`
+      }
+
+    </section>
+  `;
+
+  archiveContent
+    .querySelectorAll(".roster-card")
+    .forEach(card=>{
+      card.addEventListener("click",()=>{
+        renderPersonnelDetail(Number(card.dataset.index),list);
+      });
+    });
+}
+
+function renderPersonnelDetail(index,list = visibleItems(PERSONNEL_DATA)){
+  const person = list[index];
+
+  if(!person){
+    renderPersonnelRoster();
+    return;
+  }
+
+  const loadedGallery = personGallery(person);
+
+  const gallery = loadedGallery.length
+    ? loadedGallery
+    : [null,null,null,null,null];
+
+  const outfits = personOutfits(person);
+
+  archiveContent.innerHTML = `
+    <section class="personnel-detail">
+
+      <section class="viewer">
+
+        <div class="viewer-main" id="viewerMain">
+          ${
+            gallery[0]
+              ? `<img
+                   src="${escapeHtml(gallery[0])}"
+                   alt="${escapeHtml(person.name)}"
+                 >`
+              : `<span class="detail-placeholder">CHARACTER IMAGE</span>`
+          }
         </div>
-        <div class="archive-tools"><label class="search-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5"/></svg><input type="search" id="search-records" placeholder="기록 제목 또는 설명 검색" aria-label="전체 기록 검색" autocomplete="off"></label><span class="search-shortcut">SEARCH / 전체 기록</span></div>
-      </header>
-      <div id="archive-tabs" class="archive-tabs" role="tablist" aria-label="기록 대분류"></div>
-      <div class="archive-columns">
-        <aside class="archive-sidebar" aria-label="기록 목차">
-          <div class="sidebar-status"><div class="small-tag" id="sidebar-code">CATEGORY 01</div><h2 id="sidebar-title">분류 불러오는 중</h2><p id="sidebar-description">...</p></div>
-          <nav class="section-list" id="section-list" aria-label="하위 분류"></nav>
-        </aside>
-        <section class="archive-detail" id="archive-detail" aria-label="기록 본문" tabindex="-1"><div id="detail-content" class="detail-content" aria-live="polite"><p class="archive-loading">기록을 불러오는 중입니다...</p></div></section>
-      </div>
-    </main>
-  </div>
+
+        <div class="thumb-row">
+          ${gallery.slice(0,5).map((img,i)=>`
+            <button
+              class="thumb ${i===0 ? "active" : ""}"
+              type="button"
+              data-index="${i}"
+            >
+              ${i===4 ? "SHEET" : String(i+1).padStart(2,"0")}
+            </button>
+          `).join("")}
+        </div>
+
+      </section>
+
+      <section class="profile">
+
+        <button
+          class="back-roster"
+          id="backRoster"
+          type="button"
+        >
+          ← PERSONNEL LIST
+        </button>
+
+        <div class="profile-name">
+          <h1>${escapeHtml(person.name || "UNKNOWN")}</h1>
+
+          <span class="meta">
+            (${escapeHtml(person.age || "-")} / ${escapeHtml(person.gender || "-")})
+          </span>
+        </div>
+
+        <p class="quote">
+          “${escapeHtml(person.quote || "")}”
+        </p>
+
+        <div class="info-grid">
+
+          <div class="info-pair">
+            <span class="label">분류</span>
+            <span class="value">${escapeHtml(person.species || "-")}</span>
+          </div>
+
+          <div class="info-pair">
+            <span class="label">출신</span>
+            <span class="value">${escapeHtml(person.origin || "-")}</span>
+          </div>
+
+          <div class="info-pair">
+            <span class="label">직업</span>
+            <span class="value">${escapeHtml(person.job || "-")}</span>
+          </div>
+
+          <div class="info-pair">
+            <span class="label">소속</span>
+            <span class="value">${escapeHtml(person.affiliation || "-")}</span>
+          </div>
+
+        </div>
+
+        <div class="info-wide">
+          <span class="label">외모</span>
+          <span class="value">${escapeHtml(person.appearance || "-")}</span>
+        </div>
+
+        <div class="info-wide">
+          <span class="label">복장</span>
+
+          <span class="value">
+            ${
+              outfits.length
+                ? outfits
+                    .map((x,i)=>`${String.fromCharCode(65+i)}. ${escapeHtml(x)}`)
+                    .join("<br>")
+                : "-"
+            }
+          </span>
+        </div>
+
+        <div class="info-wide">
+          <span class="label">특기</span>
+          <span class="value">${escapeHtml(person.specialty || "-")}</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="summary">
+          ${escapeHtml(person.summary || "")}
+        </p>
+
+      </section>
+
+    </section>
+  `;
+
+  document
+    .getElementById("backRoster")
+    .addEventListener("click",renderPersonnelRoster);
+
+  const viewerMain = document.getElementById("viewerMain");
+  const thumbs = [...archiveContent.querySelectorAll(".thumb")];
+
+  thumbs.forEach(button=>{
+    button.addEventListener("click",()=>{
+      const i = Number(button.dataset.index);
+
+      thumbs.forEach(b=>b.classList.remove("active"));
+      button.classList.add("active");
+
+      if(gallery[i]){
+        viewerMain.innerHTML =
+          `<img
+             src="${escapeHtml(gallery[i])}"
+             alt="${escapeHtml(person.name)}"
+           >`;
+      }else{
+        viewerMain.innerHTML =
+          `<span class="detail-placeholder">CHARACTER IMAGE</span>`;
+      }
+    });
+  });
+}
+
+/* =========================================================
+   MAIN TAB
+   ========================================================= */
+function switchArchive(view){
+  tabs.forEach(tab=>{
+    tab.classList.toggle(
+      "active",
+      tab.dataset.view===view
+    );
+  });
+
+  if(view==="world") renderWorld();
+  if(view==="setting") renderSetting();
+  if(view==="region") renderRegion();
+  if(view==="group") renderGroup();
+  if(view==="personnel") renderPersonnelRoster();
+}
+
+tabs.forEach(tab=>{
+  tab.addEventListener(
+    "click",
+    ()=>switchArchive(tab.dataset.view)
+  );
+});
+
+/* 패널 외부 클릭 → MAIN */
+archiveBody.addEventListener("click",(event)=>{
+  if(!archiveWindow.contains(event.target)){
+    parent.postMessage("ARGO_CLOSE_PANEL","*");
+  }
+});
+
+archiveWindow.addEventListener("click",(event)=>{
+  event.stopPropagation();
+});
+
+/* =========================================================
+   DATA LOAD
+   ========================================================= */
+async function bootArchive(){
+  try{
+    const [index,personnel]=await Promise.all([
+      loadJson("content/index.json"),
+      loadJson("content/archive/personnel.json")
+    ]);
+    if(!Array.isArray(index.categories)||!Array.isArray(index.records)){
+      throw new Error("Invalid archive index format");
+    }
+    ARCHIVE_INDEX=index;
+    PERSONNEL_DATA=normalizeItems(personnel);
+    switchArchive("world");
+  }catch(error){
+    console.error(error);
+    archiveContent.innerHTML=`
+      <div class="empty-state">
+        아카이브 데이터를 불러오지 못했습니다.
+        content/index.json과 content/archive/personnel.json 경로를 확인해 주세요.
+      </div>`;
+  }
+}
+
+bootArchive();
+</script>
+
 </body>
 </html>

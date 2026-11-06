@@ -1,67 +1,185 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b171c">
-  <meta name="description" content="EARTH RE:BUILDING — 재건 시대의 현장 기록 아카이브. 세계관, 설정, 지역, 집단, 인물을 탐색하세요.">
-  <title>EARTH RE:BUILDING — FIELD HUB</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/site.css">
-  <script src="js/site.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Project ARGO NOTE</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .cover {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      cursor: pointer;
+      background: #000;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    .slide.active {
+      opacity: 1;
+    }
+
+    .enter-link {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      pointer-events: none;
+    }
+
+    .title {
+      color: white;
+      font-family:
+        "Noto Sans CJK KR",
+        "Noto Sans KR",
+        sans-serif;
+
+      font-size: clamp(28px, 5vw, 72px);
+      letter-spacing: 0.15em;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+    }
+
+    .enter {
+      margin-top: 24px;
+
+      color: rgba(255,255,255,0.8);
+      font-family:
+        "Noto Sans CJK KR",
+        "Noto Sans KR",
+        sans-serif;
+
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      opacity: 0.7;
+    }
+
+    /*
+      HOME → MAIN 전환용 검은 화면.
+      클릭 시 약 0.24초 동안 검게 덮고 main.html로 이동한다.
+    */
+    .exit-curtain {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+
+      transition: opacity 0.24s ease;
+    }
+
+    .exit-curtain.show {
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide,
+      .exit-curtain {
+        transition: none;
+      }
+    }
+  </style>
 </head>
-<body class="hub-page">
-  <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
-  <div class="scanlines" aria-hidden="true"></div>
-  <header class="site-header">
-    <a class="brand" href="./" aria-label="EARTH RE:BUILDING 홈">
-      <span class="brand-mark" aria-hidden="true">E<span>:</span>R</span>
-      <span class="brand-copy"><strong>EARTH <span>RE:BUILDING</span></strong><small>RECONSTRUCTION RECORD NETWORK</small></span>
-    </a>
-    <nav aria-label="주 메뉴" class="header-nav">
-      <button type="button" data-open="archive.html">ARCHIVE</button>
-      <button type="button" data-open="lounge.html">SIGNAL</button>
-      <button type="button" data-open="cards.html">STORAGE</button>
-      <button type="button" data-open="field.html">FIELD</button>
-    </nav>
-    <div class="header-status"><span class="live-dot"></span><span>LOCAL NETWORK <b>ONLINE</b></span></div>
-  </header>
-  <main id="main-content">
-    <div class="hero-heading">
-      <div class="eyebrow"><span class="micro-square"></span> TERMINAL 01 / ARCHIVE ACCESS POINT <span class="eyebrow-dash">—</span> YEAR 33</div>
-      <h1>끝난 것은 전쟁이다.<br><em>계속되는 것은 일상이다.</em></h1>
-      <p>짧은 전쟁 이후, 오랜 재난을 지나 다시 움직이기 시작한 지구.<br>남겨진 기록을 따라 재건의 시대를 탐색한다.</p>
-      <button type="button" class="hero-link" data-open="archive.html">기록실 접속 <span aria-hidden="true">↗</span></button>
+
+<body>
+
+  <div class="cover">
+
+    <img class="slide active" src="images/site01.jpg" alt="">
+    <img class="slide" src="images/site02.jpg" alt="">
+    <img class="slide" src="images/site03.jpg" alt="">
+    <img class="slide" src="images/site04.jpg" alt="">
+    <img class="slide" src="images/site05.jpg" alt="">
+    <img class="slide" src="images/site06.jpg" alt="">
+    <img class="slide" src="images/site07.jpg" alt="">
+
+    <div class="overlay">
+      <div class="title">PROJECT ARGO NOTE</div>
+      <div class="enter">CLICK TO ENTER</div>
     </div>
-    <section class="hub-section" aria-labelledby="hub-title">
-      <div class="scene-head">
-        <span id="hub-title">STATION INTERFACE <span class="label-faint">/ 반지하 역사 기록 접속점</span></span>
-        <span class="scene-head-right"><span class="tiny-diamond"></span> INTERACTIVE POINTS 04</span>
-      </div>
-      <div class="scene" id="station-scene">
-        <img class="scene-image" src="assets/station.svg" alt="어둡고 식물이 자라난 지하철 역사 내부. 좌측 휴게실, 중앙 사무실, 우측 장비 창고와 엘리베이터가 있다." loading="eager">
-        <div class="scene-vignette" aria-hidden="true"></div>
-        <div class="scene-grid" aria-hidden="true"></div>
-        <button class="hotspot hotspot-lounge" data-open="lounge.html" aria-label="휴게실, 작중 기록과 미디어 보기"><span class="hotspot-glow"></span><span class="hotspot-code">01 / SIGNAL</span><span class="hotspot-name">휴게실 <span aria-hidden="true">↗</span></span></button>
-        <button class="hotspot hotspot-archive" data-open="archive.html" aria-label="사무실, 세계관 아카이브 열기"><span class="hotspot-glow"></span><span class="hotspot-code">02 / DATABASE</span><span class="hotspot-name">사무실 · ARCHIVE <span aria-hidden="true">↗</span></span></button>
-        <button class="hotspot hotspot-storage" data-open="cards.html" aria-label="장비 창고, 프로젝트 기록 보기"><span class="hotspot-glow"></span><span class="hotspot-code">03 / STORAGE</span><span class="hotspot-name">장비 창고 <span aria-hidden="true">↗</span></span></button>
-        <button class="hotspot hotspot-field" data-open="field.html" aria-label="엘리베이터, 현장 접속 안내 보기"><span class="hotspot-glow"></span><span class="hotspot-code">04 / ACCESS</span><span class="hotspot-name">승강기 <span aria-hidden="true">↗</span></span></button>
-        <div class="scene-bottom"><span><span class="interaction-dot"></span> INTERACTION ENABLED</span><span>SELECT AN ACCESS POINT</span></div>
-      </div>
-      <div class="scene-foot"><span>CONTROL / 오브젝트 또는 상단 메뉴 선택</span><span>ENVIRONMENT : RECONSTRUCTION ERA</span></div>
-    </section>
-    <section class="below-hub" aria-label="아카이브 정보">
-      <article><span class="under-number">01 / WORLD</span><h2>다시 움직이는 지구</h2><p>재건된 도심과 탐사 중인 외곽, 우주 정착지가 함께 존재하는 시대.</p></article>
-      <article><span class="under-number">02 / DATABASE</span><h2>다섯 갈래의 기록</h2><p>세계관·설정·지역·집단·인물을 기록 단위로 탐색하는 자료망.</p></article>
-      <article><span class="under-number">03 / STORIES</span><h2>하나의 세계, 두 개의 시선</h2><p>장거리 취재의 ARGO NOTE와 도시 재건의 EAST CITY.</p></article>
-    </section>
-  </main>
-  <footer class="site-footer"><span>EARTH RE:BUILDING / FIELD ARCHIVE</span><span>STATIC RECORD SYSTEM <span class="footer-version">V1.0</span></span></footer>
-  <dialog class="panel-dialog" id="panel-dialog" aria-label="기록 패널">
-    <div class="panel-frame">
-      <div class="panel-toolbar"><span><span class="tiny-diamond"></span> RECONSTRUCTION RECORD NETWORK <b id="panel-name">/ ARCHIVE</b></span><div class="panel-actions"><a id="panel-new-tab" href="archive.html" target="_blank" rel="noopener noreferrer" aria-label="별도 탭에서 열기">새 탭에서 열기 ↗</a><button id="panel-close" type="button" aria-label="패널 닫기">닫기 <span aria-hidden="true">×</span></button></div></div>
-      <iframe id="panel-content" title="콘텐츠 패널" loading="lazy"></iframe>
-    </div>
-  </dialog>
+
+    <a
+      class="enter-link"
+      id="enterLink"
+      href="main.html"
+      aria-label="메인 페이지로 이동"
+    ></a>
+
+  </div>
+
+  <div
+    class="exit-curtain"
+    id="exitCurtain"
+    aria-hidden="true"
+  ></div>
+
+  <script>
+    const slides = document.querySelectorAll(".slide");
+    const enterLink = document.getElementById("enterLink");
+    const exitCurtain = document.getElementById("exitCurtain");
+
+    let current = 0;
+
+    setInterval(() => {
+      slides[current].classList.remove("active");
+
+      current = (current + 1) % slides.length;
+
+      slides[current].classList.add("active");
+    }, 5000);
+
+    /*
+      클릭 → 짧게 검은 화면 → MAIN 이동.
+      링크 자체는 main.html이라 JS가 꺼져 있어도 정상 이동한다.
+    */
+    enterLink.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      exitCurtain.classList.add("show");
+
+      setTimeout(() => {
+        window.location.href = enterLink.href;
+      }, 290);
+    });
+  </script>
+
 </body>
 </html>
